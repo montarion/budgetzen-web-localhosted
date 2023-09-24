@@ -1,0 +1,13 @@
+[Unit]
+Description=the budgetzen server
+
+[Service]
+User=levi
+WorkingDirectory=/home/[username]/budgetzen-web-localhosted
+ExecStart=make start
+Restart=always
+PIDFile=/var/run/budgetzen.pid
+StandardOutput=file:/home/[username]/budgetzen-web-localhosted/output.log
+StandardError=file:/home/[username]/budgetzen-web-localhosted/errors.log
+[Install]
+WantedBy=multi-user.target

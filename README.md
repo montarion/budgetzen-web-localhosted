@@ -2,6 +2,8 @@
 
 [![](https://github.com/BrunoBernardino/budgetzen-web/workflows/Run%20Tests/badge.svg)](https://github.com/BrunoBernardino/budgetzen-web/actions?workflow=Run+Tests)
 
+This is a fork of BrunoBernardino's [Budget Zen repository](https://github.com/BrunoBernardino/budgetzen-web), with a couple of small tweaks to make it easier to host without aditional services like brave or stripe.
+
 This is the web app for the [Budget Zen app](https://budgetzen.net), built with [Deno](https://deno.land) and deployed using [docker-compose](https://docs.docker.com/compose/).
 
 This is v3, which is [end-to-end encrypted with open Web Standards](https://en.wikipedia.org/wiki/End-to-end_encryption), and works via web on any device (it's a PWA - Progressive Web App).
@@ -64,7 +66,34 @@ $ make exec-db # runs psql inside the postgres container, useful for running dir
 
 ## Deployment
 
-- Just push to the `main` branch.
+### Postgres requirement
+If you don't have a postgres server, run:
+`docker-compose up`
+If you already have a postgres server, create a database called "budgetzen".
+
+### main commands
+- Configure your .env file by copying `.env.sample` to `.env` and editing accordingly.
+- run the following commands
+```sh
+make migrate-db
+make start
+```
+
+budgetzen's cryptographic functionality requires the use of https. To get access to https locally, use Caddy:
+`sudo caddy run`
+
+If want to use budgetzen outside of your own network, use nginx or apache as a reverse proxy.
+
+> [!WARNING]  
+> Exposing any service to the internet brings with it security risks. I'd recommend using something like [Authelia](https://www.authelia.com/) as an extra layer of security, or installing a VPN on your server and using that in conjunction with Caddy.
+
+### verification code
+After the first sign up, subsequent login attempts will require a verification code. This code will be printed to the terminal when using `make start`, and be printed to `output.log` when using the systemd service found in `examples/budgetzen.service`.
+
+### examples
+See `examples/nginx.conf` as an example configuration for the nginx reverse proxy used with authelia.
+
+Finally, see `examples/budgetzen.service` as an example configuration for a systemd service, to run budgetzen in the background.
 
 ## TODOs:
 
