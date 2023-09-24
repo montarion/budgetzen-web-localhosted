@@ -6,7 +6,7 @@ import {
   validateUserAndSession,
   validateVerificationCode,
 } from '/lib/data-utils.ts';
-import { sendVerifyLoginEmail } from '/lib/providers/brevo.ts';
+//import { sendVerifyLoginEmail } from '/lib/providers/brevo.ts';
 
 async function validateSession(request: Request) {
   const { email }: { email: string } = await request.json();
@@ -28,8 +28,8 @@ async function validateSession(request: Request) {
   }
 
   const verificationCode = await createVerificationCode(user, session, 'session');
-
-  await sendVerifyLoginEmail(user.email, verificationCode);
+  console.log(verificationCode)
+  //await sendVerifyLoginEmail(user.email, verificationCode);
 
   return new Response(JSON.stringify({ user, session_id: session.id }), {
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
