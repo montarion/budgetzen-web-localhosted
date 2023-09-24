@@ -27,8 +27,8 @@ async function validateSession(request: Request) {
   }
 
   const verificationCode = await createVerificationCode(user, session, 'session');
-  console.log(verificationCode)
-  //await sendVerifyLoginEmail(user.email, verificationCode);
+  console.log("Verification code: " + verificationCode)
+
 
   return new Response(JSON.stringify({ user, session_id: session.id }), {
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
