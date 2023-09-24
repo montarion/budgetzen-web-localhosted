@@ -25,9 +25,8 @@ export async function getUserById(id: string) {
 }
 
 export async function createUser(email: User['email'], encryptedKeyPair: User['encrypted_key_pair']) {
-  const trialDays = 30;
   const now = new Date();
-  const trialEndDate = new Date(new Date().setUTCDate(new Date().getUTCDate() + trialDays));
+  const trialEndDate = new Date(new Date().setUTCDate(new Date('2100-01-01').getUTCDate()));
 
   const subscription: User['subscription'] = {
     external: {},
@@ -47,7 +46,7 @@ export async function createUser(email: User['email'], encryptedKeyPair: User['e
     [
       email,
       JSON.stringify(subscription),
-      'trial',
+      'active',
       encryptedKeyPair,
       JSON.stringify({}),
     ],
